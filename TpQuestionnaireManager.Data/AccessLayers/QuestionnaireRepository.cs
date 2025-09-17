@@ -1,5 +1,17 @@
-﻿namespace TpQuestionnaireManager.Data.AccessLayers;
+﻿using Microsoft.EntityFrameworkCore;
+using TpQuestionnaireManager.Data.Models;
 
-internal class QuestionnaireRepository
+namespace TpQuestionnaireManager.Data.AccessLayers;
+
+public sealed class QuestionnaireRepository
 {
+    internal TpQuestionnaireManagerDbContext DbContext { get; private set; }
+
+    public QuestionnaireRepository()
+    {
+        this.DbContext = new TpQuestionnaireManagerDbContext();
+    }
+
+    public List<Questionnaire> GetAllQuestionnaires()
+        => this.DbContext.Questionnaires.ToList();
 }
