@@ -36,7 +36,13 @@
                                         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                                             <Button Style="{StaticResource CircleButton}" Content="👁️" Width="30" Height="30" Margin="5,0" />
                                             <Button Style="{StaticResource CircleButton}" Content="✏️" Width="30" Height="30" Margin="5,0" Background="Orange" />
-                                            <Button Style="{StaticResource CircleButton}" Content="X" Width="30" Height="30" Margin="5,0" Background="Red" />
+                                            <Button 
+                                                Style="{StaticResource CircleButton}" 
+                                                Content="X" Width="30" Height="30" 
+                                                Margin="5,0" Background="Red" 
+                                                Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                                CommandParameter="{Binding .}"
+                                                />
                                         </StackPanel>
                                     </Grid>
                                 </StackPanel>

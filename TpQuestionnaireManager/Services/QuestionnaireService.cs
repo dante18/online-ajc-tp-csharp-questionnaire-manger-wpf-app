@@ -21,4 +21,7 @@ public sealed class QuestionnaireService
     {
         this.questionnaireRepository.Create(questionnaire);
     }
+
+    public void RemoveQuestionnaire(Questionnaire questionnaire)
+        => this.questionnaireRepository.Delete(questionnaire.Id);
 }
