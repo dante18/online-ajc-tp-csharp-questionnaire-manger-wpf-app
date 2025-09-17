@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using TpQuestionnaireManager.Data;
 using TpQuestionnaireManager.Data.AccessLayers;
 using TpQuestionnaireManager.Data.Models;
 
@@ -15,4 +16,9 @@ public sealed class QuestionnaireService
 
     public ObservableCollection<Questionnaire> GetAllQuestionnaires()
         => new ObservableCollection<Questionnaire>(this.questionnaireRepository.GetAllQuestionnaires());
+
+    public void AddQuestionnaire(Questionnaire questionnaire)
+    {
+        this.questionnaireRepository.Create(questionnaire);
+    }
 }
