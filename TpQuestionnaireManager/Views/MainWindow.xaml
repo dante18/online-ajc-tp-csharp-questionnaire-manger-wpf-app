@@ -3,10 +3,47 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TpQuestionnaireManager.Views"
+        xmlns:local="clr-namespace:TpQuestionnaireManager.Views" 
+        xmlns:viewmodels="clr-namespace:TpQuestionnaireManager.ViewModels" 
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+
+    <Grid Background="Gray">
+        <Border Background="White" CornerRadius="20" Margin="20">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="600">
+
+                <ListBox ItemsSource="{Binding Questionnaires}" BorderThickness="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontSize="16" Text="{Binding Titre}" />
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Button Style="{StaticResource CircleButton}" Content="👁️" Width="30" Height="30" Margin="5,0" />
+                                        <Button Style="{StaticResource CircleButton}" Content="✏️" Width="30" Height="30" Margin="5,0" Background="Orange" />
+                                        <Button Style="{StaticResource CircleButton}" Content="X" Width="30" Height="30" Margin="5,0" Background="Red" />
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Button Style="{StaticResource CircleButton}" Content="+" HorizontalAlignment="Left"/>
+            </StackPanel>
+        </Border>
     </Grid>
+
 </Window>
