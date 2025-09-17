@@ -14,7 +14,7 @@ namespace TpQuestionnaireManager.Data.Migrations
                 name: "Questionnaires",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Titre = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
                 },
@@ -27,66 +27,83 @@ namespace TpQuestionnaireManager.Data.Migrations
                 name: "Questions",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Intitule = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    ReponseCorrecteId = table.Column<long>(type: "bigint", nullable: false)
+                    Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    QuestionnaireId = table.Column<int>(type: "int", nullable: false),
+                    ReponseAttendueId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Questions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Questions_Questionnaires_QuestionnaireId",
+                        column: x => x.QuestionnaireId,
+                        principalTable: "Questionnaires",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reponse",
+                name: "Reponses",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nom = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    QuestionId = table.Column<long>(type: "bigint", nullable: true)
+                    Texte = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    QuestionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reponse", x => x.Id);
+                    table.PrimaryKey("PK_Reponses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reponse_Questions_QuestionId",
+                        name: "FK_Reponses_Questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "Questions",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Questions_ReponseCorrecteId",
+                name: "IX_Questions_QuestionnaireId",
                 table: "Questions",
-                column: "ReponseCorrecteId");
+                column: "QuestionnaireId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reponse_QuestionId",
-                table: "Reponse",
+                name: "IX_Questions_ReponseAttendueId",
+                table: "Questions",
+                column: "ReponseAttendueId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reponses_QuestionId",
+                table: "Reponses",
                 column: "QuestionId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Questions_Reponse_ReponseCorrecteId",
+                name: "FK_Questions_Reponses_ReponseAttendueId",
                 table: "Questions",
-                column: "ReponseCorrecteId",
-                principalTable: "Reponse",
+                column: "ReponseAttendueId",
+                principalTable: "Reponses",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Questions_Reponse_ReponseCorrecteId",
+                name: "FK_Questions_Questionnaires_QuestionnaireId",
+                table: "Questions");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Questions_Reponses_ReponseAttendueId",
                 table: "Questions");
 
             migrationBuilder.DropTable(
                 name: "Questionnaires");
 
             migrationBuilder.DropTable(
-                name: "Reponse");
+                name: "Reponses");
 
             migrationBuilder.DropTable(
                 name: "Questions");

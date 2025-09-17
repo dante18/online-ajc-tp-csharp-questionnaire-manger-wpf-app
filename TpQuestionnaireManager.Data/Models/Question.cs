@@ -1,20 +1,27 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using TpQuestionnaireManager.Data.Models.Abstractions;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TpQuestionnaireManager.Data.Models;
 
-public class Question : IEntity
+[Table("Questions")]
+public class Question
 {
-    public long Id { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
 
     [Required]
-    [MaxLength(200)]
-    public string Intitule { get; set; } = null!;
+    [MaxLength(500)]
+    public string Text { get; set; } = string.Empty;
 
     [Required]
-    public Reponse ReponseCorrecte { get; set; } = null!;
-
-    public List<Reponse> ReponsePossible { get; set; }
+    public int QuestionnaireId { get; set; }
 
     public Questionnaire Questionnaire { get; set; } = null!;
+
+    public List<Reponse> ReponsesPossibles { get; set; } = new List<Reponse>();
+
+    public int? ReponseAttendueId { get; set; }
+
+    public Reponse? ReponseAttendue { get; set; }
 }

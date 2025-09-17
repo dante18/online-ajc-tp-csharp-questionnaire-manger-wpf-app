@@ -2,18 +2,18 @@
 
 namespace TpQuestionnaireManager.Data.AccessLayers;
 
-public sealed class QuestionRepository
+public sealed class ReponseRepository
 {
     private readonly TpQuestionnaireManagerDbContext _context;
 
-    public QuestionRepository(TpQuestionnaireManagerDbContext context)
+    public ReponseRepository(TpQuestionnaireManagerDbContext context)
     {
         _context = context;
     }
 
-    public void Create(Question question)
+    public void Create(Reponse reponse)
     {
-        this._context.Questions.Add(question);
+        this._context.Reponses.Add(reponse);
         this._context.SaveChanges();
     }
 }

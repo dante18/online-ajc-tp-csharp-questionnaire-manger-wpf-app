@@ -23,39 +23,39 @@ namespace TpQuestionnaireManager.Data.Migrations
 
             modelBuilder.Entity("TpQuestionnaireManager.Data.Models.Question", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Intitule")
+                    b.Property<int>("QuestionnaireId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReponseAttendueId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<long>("QuestionnaireId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ReponseCorrecteId")
-                        .HasColumnType("bigint");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionnaireId");
 
-                    b.HasIndex("ReponseCorrecteId");
+                    b.HasIndex("ReponseAttendueId");
 
                     b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("TpQuestionnaireManager.Data.Models.Questionnaire", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Titre")
                         .IsRequired()
@@ -69,56 +69,64 @@ namespace TpQuestionnaireManager.Data.Migrations
 
             modelBuilder.Entity("TpQuestionnaireManager.Data.Models.Reponse", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Nom")
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Texte")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<long?>("QuestionId")
-                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Reponse");
+                    b.ToTable("Reponses");
                 });
 
             modelBuilder.Entity("TpQuestionnaireManager.Data.Models.Question", b =>
                 {
                     b.HasOne("TpQuestionnaireManager.Data.Models.Questionnaire", "Questionnaire")
-                        .WithMany()
+                        .WithMany("Questions")
                         .HasForeignKey("QuestionnaireId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TpQuestionnaireManager.Data.Models.Reponse", "ReponseCorrecte")
+                    b.HasOne("TpQuestionnaireManager.Data.Models.Reponse", "ReponseAttendue")
                         .WithMany()
-                        .HasForeignKey("ReponseCorrecteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ReponseAttendueId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Questionnaire");
 
-                    b.Navigation("ReponseCorrecte");
+                    b.Navigation("ReponseAttendue");
                 });
 
             modelBuilder.Entity("TpQuestionnaireManager.Data.Models.Reponse", b =>
                 {
-                    b.HasOne("TpQuestionnaireManager.Data.Models.Question", null)
-                        .WithMany("ReponsePossible")
-                        .HasForeignKey("QuestionId");
+                    b.HasOne("TpQuestionnaireManager.Data.Models.Question", "Question")
+                        .WithMany("ReponsesPossibles")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("TpQuestionnaireManager.Data.Models.Question", b =>
                 {
-                    b.Navigation("ReponsePossible");
+                    b.Navigation("ReponsesPossibles");
+                });
+
+            modelBuilder.Entity("TpQuestionnaireManager.Data.Models.Questionnaire", b =>
+                {
+                    b.Navigation("Questions");
                 });
 #pragma warning restore 612, 618
         }
