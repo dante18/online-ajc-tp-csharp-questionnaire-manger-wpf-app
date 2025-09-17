@@ -1,5 +1,5 @@
 ﻿namespace TpQuestionnaireManager.Data.AccessLayers;
 
-internal class QuestionnaireRepository
+internal class QuestionnRepository
 {
 }
