@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using TpQuestionnaireManager.ViewModels;
 
 namespace TpQuestionnaireManager.Views
 {
@@ -10,7 +9,6 @@ namespace TpQuestionnaireManager.Views
     {
         public MainWindow()
         {
-            this.DataContext = new MainWindowViewModel();
             InitializeComponent();
             MainFrame.Navigate(new ListeQuestionnaire());
         }

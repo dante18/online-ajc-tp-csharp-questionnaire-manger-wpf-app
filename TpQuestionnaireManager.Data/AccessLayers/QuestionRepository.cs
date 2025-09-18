@@ -5,18 +5,22 @@ namespace TpQuestionnaireManager.Data.AccessLayers;
 
 public sealed class QuestionRepository
 {
-    private readonly TpQuestionnaireManagerDbContext _context
-        = new TpQuestionnaireManagerDbContext();
+    internal TpQuestionnaireManagerDbContext DbContext { get; private set; }
+
+    public QuestionRepository()
+    {
+        this.DbContext = new TpQuestionnaireManagerDbContext();
+    }
 
     public void Create(Question question)
     {
-        this._context.Questions.Add(question);
-        this._context.SaveChanges();
+        this.DbContext.Questions.Add(question);
+        this.DbContext.SaveChanges();
     }
 
     public List<Question> GetAllQuestionsByQuestionnaireId(int questionnaireId)
     {
-        return _context.Questions
+        return this.DbContext.Questions
             .Where(q => q.QuestionnaireId == questionnaireId)
             .Include(q => q.ReponseAttendue)
             .Include(q => q.ReponsesPossibles)

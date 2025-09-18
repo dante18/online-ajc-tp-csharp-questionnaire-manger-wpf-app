@@ -7,10 +7,13 @@ namespace TpQuestionnaireManager.Services;
 
 public sealed class QuestionService
 {
-    private readonly QuestionRepository _repository = new QuestionRepository();
+    private readonly QuestionRepository questionRepository;
 
-    public List<Question> GetAllQuestionsByQuestionnaire(int questionnaireId)
+    public QuestionService()
     {
-        return _repository.GetAllQuestionsByQuestionnaireId(questionnaireId);
-    } 
+        this.questionRepository = new QuestionRepository();
+    }
+
+    public ObservableCollection<Question> GetAllQuestionsByQuestionnaire(int questionnaireId)
+        => new ObservableCollection<Question>(this.questionRepository.GetAllQuestionsByQuestionnaireId(questionnaireId));
 }
