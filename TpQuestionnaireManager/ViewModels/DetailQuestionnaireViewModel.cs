@@ -92,6 +92,7 @@ public sealed partial class DetailQuestionnaireViewModel
             this.SelectedQuestion.ReponsesPossibles.FirstOrDefault()!;
 
         this.questionService.UpdateQuestion(this.SelectedQuestion, responseAttendue);
+        this.SelectedQuestion = null;
     }
 
     private void SupprimerQuestion()
@@ -100,6 +101,18 @@ public sealed partial class DetailQuestionnaireViewModel
         {
             this.questionService.RemoveQuestion(this.SelectedQuestion);
             this.Questions.Remove(this.SelectedQuestion);
+            this.SelectedQuestion = new Question()
+            {
+                Text = string.Empty,
+                ReponsesPossibles = new List<Reponse>
+                {
+                    new Reponse { Texte = string.Empty },
+                    new Reponse { Texte = string.Empty },
+                    new Reponse { Texte = string.Empty },
+                    new Reponse { Texte = string.Empty }
+                },
+                Questionnaire = this.Questionnaire
+            };
         }
     }
 }
