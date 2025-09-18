@@ -14,6 +14,14 @@ public sealed class QuestionService
         this.questionRepository = new QuestionRepository();
     }
 
+    public void AddQuestion(Question question, Reponse reponseAttendue)
+    {
+        this.questionRepository.Create(question, reponseAttendue);
+    }
+
     public ObservableCollection<Question> GetAllQuestionsByQuestionnaire(int questionnaireId)
         => new ObservableCollection<Question>(this.questionRepository.GetAllQuestionsByQuestionnaireId(questionnaireId));
+
+    public void RemoveQuestion(Question question)
+        => this.questionRepository.Delete(question.Id);
 }

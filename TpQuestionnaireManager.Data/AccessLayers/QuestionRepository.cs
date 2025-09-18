@@ -12,12 +12,6 @@ public sealed class QuestionRepository
         this.DbContext = new TpQuestionnaireManagerDbContext();
     }
 
-    public void Create(Question question)
-    {
-        this.DbContext.Questions.Add(question);
-        this.DbContext.SaveChanges();
-    }
-
     public List<Question> GetAllQuestionsByQuestionnaireId(int questionnaireId)
     {
         return this.DbContext.Questions
@@ -25,5 +19,30 @@ public sealed class QuestionRepository
             .Include(q => q.ReponseAttendue)
             .Include(q => q.ReponsesPossibles)
             .ToList();
+    }
+
+    public void Create(Question question, Reponse reponseAttendue)
+    {
+        // Pour eviter le probleme de Circular Dependency au de la liaison entre les tables Questions et Reponses
+        this.DbContext.Questions.Add(question);
+        this.DbContext.SaveChanges();
+
+        question.ReponseAttendueId = question.ReponsesPossibles.First(r => r.Texte == reponseAttendue.Texte).Id;
+        this.DbContext.SaveChanges();
+    }
+
+    public void Delete(int id)
+    {
+        var question = this.DbContext.Questions.Find(id);
+
+        if (question is not null)
+        {
+            // Pour eviter le probleme de Circular Dependency au de la liaison entre les tables Questions et Reponses
+            question.ReponseAttendueId = null;
+            this.DbContext.SaveChanges();
+
+            this.DbContext.Questions.Remove(question);
+            this.DbContext.SaveChanges();
+        }
     }
 }

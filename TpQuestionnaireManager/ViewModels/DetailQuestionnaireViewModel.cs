@@ -16,6 +16,12 @@ public sealed partial class DetailQuestionnaireViewModel
 
     public ICommand RetourAccueilCommand { get; set; } = null!;
 
+    public ICommand AjouterCommand { get; set; } = null!;
+
+    public ICommand ModifierCommand { get; set; } = null!;
+
+    public ICommand SupprimerCommand { get; set; } = null!;
+
     public ObservableCollection<Question> Questions { get; set; } = new();
 
     [ObservableProperty]
@@ -35,7 +41,26 @@ public sealed partial class DetailQuestionnaireViewModel
         this.questionService = new QuestionService();
         this.Questions = this.questionService.GetAllQuestionsByQuestionnaire(q.Id);
 
-        RetourAccueilCommand = new RelayCommand(RetourAccueil);
+        if (this.Questions.Count == 0)
+        {
+            this.SelectedQuestion = new Question()
+            {
+                Text = string.Empty,
+                ReponsesPossibles = new List<Reponse>
+                {
+                    new Reponse { Texte = string.Empty },
+                    new Reponse { Texte = string.Empty },
+                    new Reponse { Texte = string.Empty },
+                    new Reponse { Texte = string.Empty }
+                },
+                Questionnaire = this.Questionnaire
+            };
+        }
+
+        this.RetourAccueilCommand = new RelayCommand(this.RetourAccueil);
+        this.AjouterCommand = new RelayCommand(this.AjouterQuestion);
+        this.ModifierCommand = new RelayCommand(this.ModifierQuestion);
+        this.SupprimerCommand = new RelayCommand(this.SupprimerQuestion);
     }
 
     private void RetourAccueil()
@@ -43,5 +68,33 @@ public sealed partial class DetailQuestionnaireViewModel
         var mainWindow = Application.Current.MainWindow as MainWindow;
         mainWindow?.MainFrame.Navigate(new ListeQuestionnaire());
         this.QuestionnaireTitre = "";
+    }
+
+    private void AjouterQuestion()
+    {
+        Question question = new Question()
+        {
+            Text = this.SelectedQuestion.Text,
+            ReponsesPossibles = this.SelectedQuestion.ReponsesPossibles,
+            QuestionnaireId = this.Questionnaire.Id
+        };
+        Reponse responseAttendue = this.SelectedQuestion.ReponseAttendue;
+
+        this.questionService.AddQuestion(question, responseAttendue);
+        this.Questions.Add(this.SelectedQuestion);
+    }
+
+    private void ModifierQuestion()
+    {
+        
+    }
+
+    private void SupprimerQuestion()
+    {
+        if (this.SelectedQuestion is not null)
+        {
+            this.questionService.RemoveQuestion(this.SelectedQuestion);
+            this.Questions.Remove(this.SelectedQuestion);
+        }
     }
 }
