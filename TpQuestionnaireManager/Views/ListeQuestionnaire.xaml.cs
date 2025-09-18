@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using TpQuestionnaireManager.Data.Models;
+using TpQuestionnaireManager.ViewModels;
+
+namespace TpQuestionnaireManager.Views
+{
+    /// <summary>
+    /// Logique d'interaction pour ListeQuestionnaire.xaml
+    /// </summary>
+    public partial class ListeQuestionnaire : Page
+    {
+        public ListeQuestionnaire()
+        {
+            InitializeComponent();
+            this.DataContext = new ListeQuestionnaireViewModel();
+        }
+
+        private void Modifier_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow?.MainFrame.Navigate(new DetailQuestionnaire());
+        }
+
+    }
+}

@@ -12,6 +12,7 @@ namespace TpQuestionnaireManager.Views
         {
             this.DataContext = new MainWindowViewModel();
             InitializeComponent();
+            MainFrame.Navigate(new ListeQuestionnaire());
         }
     }
 }
