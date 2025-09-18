@@ -17,7 +17,8 @@
         
 
         <StackPanel Grid.Column="0" Background="LightGray">
-            <Button Width="40" Height="40" Margin="10" FontSize="24" Content="🏠" Click="Home_Click" />
+            <Button Width="40" Height="40" Margin="10" FontSize="24" Content="🏠"
+                    Command="{Binding RetourAccueilCommand}"/>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Margin="20" VerticalAlignment="Top">

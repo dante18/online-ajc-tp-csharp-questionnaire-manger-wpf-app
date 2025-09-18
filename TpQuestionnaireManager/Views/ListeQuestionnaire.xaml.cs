@@ -28,11 +28,5 @@ namespace TpQuestionnaireManager.Views
             this.DataContext = new ListeQuestionnaireViewModel();
         }
 
-        private void Modifier_Click(object sender, RoutedEventArgs e)
-        {
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            mainWindow?.MainFrame.Navigate(new DetailQuestionnaire());
-        }
-
     }
 }
