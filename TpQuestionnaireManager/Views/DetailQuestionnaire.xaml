@@ -3,7 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:TpQuestionnaireManager.Views" xmlns:viewmodels="clr-namespace:TpQuestionnaireManager.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:DetailQuestionnaireViewModel}"
+      xmlns:local="clr-namespace:TpQuestionnaireManager.Views"
+      xmlns:viewmodels="clr-namespace:TpQuestionnaireManager.ViewModels"
+      d:DataContext="{d:DesignInstance Type=viewmodels:DetailQuestionnaireViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="DetailQuestionnaire">
@@ -14,11 +16,11 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-
-
         <StackPanel Grid.Column="0">
+            <TextBlock Text="{Binding QuestionnaireTitre}" Margin="10,10,0,10" FontSize="15"/>
+
             <Button Width="40" Height="40" FontSize="24" Content="🏠"
-            Command="{Binding RetourAccueilCommand}" Margin="0 0 0 20"/>
+                    Command="{Binding RetourAccueilCommand}" Margin="0 0 0 20"/>
 
             <ListBox Grid.Column="0"
          ItemsSource="{Binding Questions}"
@@ -42,7 +44,6 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1" Margin="20" VerticalAlignment="Top" DataContext="{Binding SelectedQuestion}">
-
             <TextBlock Text="Question" />
             <TextBox Text="{Binding Text, Mode=TwoWay}" Margin="0,0,0,10"/>
 

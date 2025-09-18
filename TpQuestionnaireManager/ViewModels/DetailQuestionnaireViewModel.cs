@@ -9,34 +9,32 @@ using TpQuestionnaireManager.Views;
 
 namespace TpQuestionnaireManager.ViewModels;
 
-public class DetailQuestionnaireViewModel : ObservableObject
+[ObservableObject]
+public sealed partial class DetailQuestionnaireViewModel
 {
-    public ICommand RetourAccueilCommand { get; }
+    private readonly QuestionService questionService;
 
-    private ObservableCollection<Question> _questions = new();
+    public ICommand RetourAccueilCommand { get; set; } = null!;
 
-    public ObservableCollection<Question> Questions
+    public ObservableCollection<Question> Questions { get; set; } = new();
+
+    [ObservableProperty]
+    private Questionnaire questionnaire;
+
+    [ObservableProperty]
+    private string? questionnaireTitre;
+
+    [ObservableProperty]
+    private Question? selectedQuestion;
+
+    public DetailQuestionnaireViewModel(Questionnaire q)
     {
-        get => _questions;
-        set
-        {
-            SetProperty(ref _questions, value);
-        }
-    }
+        this.Questionnaire = q;
+        this.QuestionnaireTitre = $"Gestion du questionnaire : {q.Titre}";
 
-    private Question? _selectedQuestion;
-    public Question? SelectedQuestion
-    {
-        get => _selectedQuestion;
-        set => SetProperty(ref _selectedQuestion, value);
-    }
+        this.questionService = new QuestionService();
+        this.Questions = this.questionService.GetAllQuestionsByQuestionnaire(q.Id);
 
-    private readonly QuestionService _questionService = new QuestionService();
-
-    public DetailQuestionnaireViewModel(Questionnaire questionnaire)
-    {
-        var questions = _questionService.GetAllQuestionsByQuestionnaire(questionnaire.Id);
-        Questions = new ObservableCollection<Question>(questions);
         RetourAccueilCommand = new RelayCommand(RetourAccueil);
     }
 
@@ -44,5 +42,6 @@ public class DetailQuestionnaireViewModel : ObservableObject
     {
         var mainWindow = Application.Current.MainWindow as MainWindow;
         mainWindow?.MainFrame.Navigate(new ListeQuestionnaire());
+        this.QuestionnaireTitre = "";
     }
 }
