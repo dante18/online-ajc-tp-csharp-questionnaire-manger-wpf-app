@@ -40,22 +40,18 @@ public sealed partial class DetailQuestionnaireViewModel
 
         this.questionService = new QuestionService();
         this.Questions = this.questionService.GetAllQuestionsByQuestionnaire(q.Id);
-
-        if (this.Questions.Count == 0)
+        this.SelectedQuestion = new Question()
         {
-            this.SelectedQuestion = new Question()
+            Text = string.Empty,
+            ReponsesPossibles = new List<Reponse>
             {
-                Text = string.Empty,
-                ReponsesPossibles = new List<Reponse>
-                {
-                    new Reponse { Texte = string.Empty },
-                    new Reponse { Texte = string.Empty },
-                    new Reponse { Texte = string.Empty },
-                    new Reponse { Texte = string.Empty }
-                },
-                Questionnaire = this.Questionnaire
-            };
-        }
+                new Reponse { Texte = string.Empty },
+                new Reponse { Texte = string.Empty },
+                new Reponse { Texte = string.Empty },
+                new Reponse { Texte = string.Empty }
+            },
+            Questionnaire = this.Questionnaire
+        };
 
         this.RetourAccueilCommand = new RelayCommand(this.RetourAccueil);
         this.AjouterCommand = new RelayCommand(this.AjouterQuestion);
@@ -81,7 +77,9 @@ public sealed partial class DetailQuestionnaireViewModel
         Reponse responseAttendue = this.SelectedQuestion.ReponseAttendue;
 
         this.questionService.AddQuestion(question, responseAttendue);
+
         this.Questions.Add(this.SelectedQuestion);
+        this.SelectedQuestion = null;
     }
 
     private void ModifierQuestion()
