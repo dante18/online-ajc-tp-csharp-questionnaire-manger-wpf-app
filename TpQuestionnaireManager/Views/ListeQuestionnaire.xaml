@@ -6,9 +6,14 @@
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       xmlns:local="clr-namespace:TpQuestionnaireManager.Views"
       xmlns:behaviors="clr-namespace:TpQuestionnaireManager.Behaviors"
+      xmlns:converters="clr-namespace:TpQuestionnaireManager.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ListeQuestionnaire">
+
+    <Page.Resources>
+        <converters:CollectionEmptyOrNullConverter x:Key="EmptyCollectionConverter" />
+    </Page.Resources>
 
     <Grid Background="Gray">
         <Border Background="White" CornerRadius="20" Margin="20">
@@ -28,6 +33,12 @@
                         Command="{Binding AjouterCommand}"
                     />
                 </StackPanel>
+
+                <TextBlock Text="Aucun questionnaire disponible"
+               Visibility="{Binding Questionnaires, Converter={StaticResource EmptyCollectionConverter}}" 
+               FontStyle="Italic"
+               HorizontalAlignment="Center" Margin="10"/>
+                
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="600">
                     <ListBox ItemsSource="{Binding Questionnaires}" BorderThickness="0">
                         <ListBox.ItemTemplate>
