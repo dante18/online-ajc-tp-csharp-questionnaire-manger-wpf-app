@@ -18,9 +18,11 @@ public sealed class QuestionnaireService
         => new ObservableCollection<Questionnaire>(this.questionnaireRepository.GetAllQuestionnaires());
 
     public void AddQuestionnaire(Questionnaire questionnaire)
-    {
-        this.questionnaireRepository.Create(questionnaire);
-    }
+        => this.questionnaireRepository.Create(questionnaire);
+
+
+    public void UpdateQuestionnaireTitle(int id, string newTitle)
+        => this.questionnaireRepository.UpdateTitle(id, newTitle);
 
     public void RemoveQuestionnaire(Questionnaire questionnaire)
         => this.questionnaireRepository.Delete(questionnaire.Id);

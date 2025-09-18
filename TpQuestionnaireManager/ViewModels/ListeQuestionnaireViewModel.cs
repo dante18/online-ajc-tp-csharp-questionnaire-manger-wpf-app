@@ -25,6 +25,9 @@ public sealed partial class ListeQuestionnaireViewModel
     [ObservableProperty]
     private string? nouveauQuestionnaireTitre;
 
+    [ObservableProperty]
+    private string? titreModifie;
+
     public ListeQuestionnaireViewModel()
     {
         this.questionnaireService = new QuestionnaireService();

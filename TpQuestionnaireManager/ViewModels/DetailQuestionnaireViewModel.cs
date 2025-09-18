@@ -33,6 +33,7 @@ public sealed partial class DetailQuestionnaireViewModel
     [ObservableProperty]
     private Question? selectedQuestion;
 
+
     public DetailQuestionnaireViewModel(Questionnaire q)
     {
         this.Questionnaire = q;
@@ -86,7 +87,13 @@ public sealed partial class DetailQuestionnaireViewModel
 
     private void ModifierQuestion()
     {
-        
+        if (this.SelectedQuestion is null)
+            return;
+
+        Reponse responseAttendue = this.SelectedQuestion.ReponseAttendue ??
+            this.SelectedQuestion.ReponsesPossibles.FirstOrDefault()!;
+
+        this.questionService.UpdateQuestion(this.SelectedQuestion, responseAttendue);
     }
 
     private void SupprimerQuestion()

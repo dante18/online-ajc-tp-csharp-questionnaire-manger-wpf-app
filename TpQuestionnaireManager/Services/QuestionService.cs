@@ -24,4 +24,7 @@ public sealed class QuestionService
 
     public void RemoveQuestion(Question question)
         => this.questionRepository.Delete(question.Id);
+
+    public void UpdateQuestion(Question question, Reponse reponseAttendue)
+        => this.questionRepository.Update(question, reponseAttendue);
 }

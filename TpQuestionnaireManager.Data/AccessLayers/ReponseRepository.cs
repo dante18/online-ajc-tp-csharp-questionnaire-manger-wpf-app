@@ -4,16 +4,27 @@ namespace TpQuestionnaireManager.Data.AccessLayers;
 
 public sealed class ReponseRepository
 {
-    private readonly TpQuestionnaireManagerDbContext _context;
+    internal TpQuestionnaireManagerDbContext DbContext { get; private set; }
 
-    public ReponseRepository(TpQuestionnaireManagerDbContext context)
+    public ReponseRepository()
     {
-        _context = context;
+        this.DbContext = new TpQuestionnaireManagerDbContext();
     }
 
     public void Create(Reponse reponse)
     {
-        this._context.Reponses.Add(reponse);
-        this._context.SaveChanges();
+        this.DbContext.Reponses.Add(reponse);
+        this.DbContext.SaveChanges();
+    }
+
+    public void Delete(Reponse reponse)
+    {
+        var existingReponse = this.DbContext.Reponses.Find(reponse.Id);
+
+        if (existingReponse is not null)
+        {
+            this.DbContext.Reponses.Remove(existingReponse);
+            this.DbContext.SaveChanges();
+        }
     }
 }

@@ -20,6 +20,17 @@ public sealed class QuestionnaireRepository
         this.DbContext.SaveChanges();
     }
 
+    public void UpdateTitle(int id, string title)
+    {
+        var questionnaire = this.DbContext.Questionnaires.Find(id);
+
+        if (questionnaire is not null)
+        {
+            questionnaire.Titre = title;
+            this.DbContext.SaveChanges();
+        }
+    }
+
     public void Delete(int id)
     {
         var questionnaire = this.DbContext.Questionnaires.Find(id);

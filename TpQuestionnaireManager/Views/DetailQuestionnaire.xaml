@@ -70,11 +70,13 @@
                 </ComboBox.ItemsSource>
             </ComboBox>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Height="30" Width="150" Content="Add Question" Margin="0, 10, 10, 10"
-                        Command="{Binding DataContext.AjouterCommand, RelativeSource={RelativeSource AncestorType=Page}}"/>
+                <Button Height="30" Width="150" Content="Update Question" Margin="0, 10, 10, 10"
+        Command="{Binding DataContext.ModifierCommand, RelativeSource={RelativeSource AncestorType=Page}}"/>
                 <Button Height="30" Width="150" Content="Remove Question" Margin="0, 10, 0, 10"
                         Command="{Binding DataContext.SupprimerCommand, RelativeSource={RelativeSource AncestorType=Page}}"/>
             </StackPanel>
+            <Button Height="30" Width="150" Content="Add Question" Margin="0, 10, 10, 10"
+        Command="{Binding DataContext.AjouterCommand, RelativeSource={RelativeSource AncestorType=Page}}"/>
         </StackPanel>
     </Grid>
 </Page>
