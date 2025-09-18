@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using TpQuestionnaireManager.Data.AccessLayers;
 using TpQuestionnaireManager.Data.Models;
 using TpQuestionnaireManager.Services;
 using TpQuestionnaireManager.Views;
@@ -14,7 +15,7 @@ class ListeQuestionnaireViewModel : ObservableObject
     private readonly QuestionnaireService questionnaireService;
 
     public ICommand DeleteCommand { get; set; } = null!;
-    public ICommand ModifierCommand { get; }
+    public ICommand ModifierCommand { get; } = null!;
 
     public ObservableCollection<Questionnaire> Questionnaires { get; } = new();
 

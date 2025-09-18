@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TpQuestionnaireManager.Data.Models;
+using TpQuestionnaireManager.ViewModels;
 
 namespace TpQuestionnaireManager.Views
 {
@@ -21,10 +22,10 @@ namespace TpQuestionnaireManager.Views
     /// </summary>
     public partial class DetailQuestionnaire : Page
     {
-        public DetailQuestionnaire(Questionnaire q)
+        public DetailQuestionnaire(Questionnaire questionnaire)
         {
             InitializeComponent();
-            this.DataContext = new DetailQuestionnaireViewModel();
+            this.DataContext = new DetailQuestionnaireViewModel(questionnaire);
         }
     }
 }

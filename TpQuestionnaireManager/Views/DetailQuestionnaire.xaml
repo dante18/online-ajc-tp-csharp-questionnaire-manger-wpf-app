@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:TpQuestionnaireManager.Views"
+      xmlns:local="clr-namespace:TpQuestionnaireManager.Views" xmlns:viewmodels="clr-namespace:TpQuestionnaireManager.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:DetailQuestionnaireViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="DetailQuestionnaire">
@@ -14,30 +14,51 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        
 
-        <StackPanel Grid.Column="0" Background="LightGray">
-            <Button Width="40" Height="40" Margin="10" FontSize="24" Content="🏠"
-                    Command="{Binding RetourAccueilCommand}"/>
+
+        <StackPanel Grid.Column="0">
+            <Button Width="40" Height="40" FontSize="24" Content="🏠"
+            Command="{Binding RetourAccueilCommand}" Margin="0 0 0 20"/>
+
+            <ListBox Grid.Column="0"
+         ItemsSource="{Binding Questions}"
+         SelectedItem="{Binding SelectedQuestion, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0 5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="2" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock TextWrapping="Wrap" Text="{Binding Text}" Grid.Column="0" Margin="5" />
+                            <Border Grid.Column="1" Background="Gray" />
+                            <TextBlock TextWrapping="Wrap" Text="{Binding ReponseAttendue.Texte}" Grid.Column="2" Margin="5" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Margin="20" VerticalAlignment="Top">
+        <StackPanel Grid.Column="1" Margin="20" VerticalAlignment="Top" DataContext="{Binding SelectedQuestion}">
+
             <TextBlock Text="Question" />
-            <TextBox x:Name="QuestionInput" Margin="0,0,0,10"/>
+            <TextBox Text="{Binding Text, Mode=TwoWay}" Margin="0,0,0,10"/>
 
             <TextBlock Text="Réponses possibles" />
-            <TextBox x:Name="Reponse1" Margin="0,0,0,5"/>
-            <TextBox x:Name="Reponse2" Margin="0,0,0,5"/>
-            <TextBox x:Name="Reponse3" Margin="0,0,0,5"/>
-            <TextBox x:Name="Reponse4" Margin="0,0,0,10"/>
+            <TextBox Text="{Binding ReponsesPossibles[0].Texte, Mode=TwoWay}" Margin="0,0,0,5"/>
+            <TextBox Text="{Binding ReponsesPossibles[1].Texte, Mode=TwoWay}" Margin="0,0,0,5"/>
+            <TextBox Text="{Binding ReponsesPossibles[2].Texte, Mode=TwoWay}" Margin="0,0,0,5"/>
+            <TextBox Text="{Binding ReponsesPossibles[3].Texte, Mode=TwoWay}" Margin="0,0,0,10"/>
 
             <TextBlock Text="Réponse correcte" />
-            <ComboBox x:Name="BonneReponse">
-                <ComboBoxItem Content="{Binding Text, ElementName=Reponse1}" />
-                <ComboBoxItem Content="{Binding Text, ElementName=Reponse2}" />
-                <ComboBoxItem Content="{Binding Text, ElementName=Reponse3}" />
-                <ComboBoxItem Content="{Binding Text, ElementName=Reponse4}" />
+            <ComboBox SelectedItem="{Binding ReponseAttendue}" DisplayMemberPath="Texte">
+                <ComboBox.ItemsSource>
+                    <Binding Path="ReponsesPossibles" />
+                </ComboBox.ItemsSource>
             </ComboBox>
+
         </StackPanel>
     </Grid>
 </Page>
